@@ -76,4 +76,7 @@ dependencies {
 //    implementation 'com.google.android.gms:play-services-tflite-support:16.1.0'
 
 //    implementation files('libs/jlibrosa-1.1.8-SNAPSHOT-jar-with-dependencies.jar')
+
+    implementation 'com.squareup.okhttp3:okhttp:4.9.3'
+
 }

@@ -27,6 +27,9 @@ import com.whispertflite.asr.Player;
 import com.whispertflite.utils.WaveUtil;
 import com.whispertflite.asr.Recorder;
 import com.whispertflite.asr.Whisper;
+import com.chatbot.AzureGPT4oMiniLLM;
+
+import org.json.JSONException;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -38,9 +41,7 @@ import java.util.ArrayList;
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = "MainActivity";
 
-    // whisper-tiny.tflite and whisper-base-nooptim.en.tflite works well
     private static final String DEFAULT_MODEL_TO_USE = "whisper-tiny.tflite";
-    // English only model ends with extension ".en.tflite"
     private static final String ENGLISH_ONLY_MODEL_EXTENSION = ".en.tflite";
     private static final String ENGLISH_ONLY_VOCAB_FILE = "filters_vocab_en.bin";
     private static final String MULTILINGUAL_VOCAB_FILE = "filters_vocab_multilingual.bin";
@@ -56,6 +57,7 @@ public class MainActivity extends AppCompatActivity {
     private Player mPlayer = null;
     private Recorder mRecorder = null;
     private Whisper mWhisper = null;
+    private AzureGPT4oMiniLLM llm = null;
 
     private File sdcardDataFolder = null;
     private File selectedWaveFile = null;
@@ -70,6 +72,13 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        // Initialize LLM
+        try {
+            llm = new AzureGPT4oMiniLLM(this);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
         // Call the method to copy specific file types from assets to data folder
         sdcardDataFolder = this.getExternalFilesDir(null);
@@ -266,7 +275,10 @@ public class MainActivity extends AppCompatActivity {
                 handler.post(() -> tvStatus.setText("Processing done in " + timeTaken + "ms"));
 
                 Log.d(TAG, "Result: " + result);
-                handler.post(() -> tvResult.append(result));
+                handler.post(() -> {
+                    tvResult.append("Transcription: " + result + "\n");
+                    sendToLLM(result);
+                });
             }
         });
     }
@@ -399,6 +411,17 @@ public class MainActivity extends AppCompatActivity {
         }
 
         return filteredFiles;
+    }
+
+    private void sendToLLM(String transcription) {
+        new Thread(() -> {
+            try {
+                String llmResponse = llm.generateResponse(transcription);
+                handler.post(() -> tvResult.append("LLM Response: " + llmResponse + "\n"));
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }).start();
     }
 
     static class SharedResource {
