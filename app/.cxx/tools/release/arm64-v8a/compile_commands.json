@@ -1,0 +1,12 @@
+[
+{
+  "directory": "/Users/manwelbugeja/StudioProjects/whisper_android/whisper_native/app/.cxx/RelWithDebInfo/5e1f3e4n/arm64-v8a",
+  "command": "/Users/manwelbugeja/Library/Android/sdk/ndk/25.1.8937393/toolchains/llvm/prebuilt/darwin-x86_64/bin/clang++ --target=aarch64-none-linux-android26 --sysroot=/Users/manwelbugeja/Library/Android/sdk/ndk/25.1.8937393/toolchains/llvm/prebuilt/darwin-x86_64/sysroot -DaudioEngine_EXPORTS -I/Users/manwelbugeja/StudioProjects/whisper_android/whisper_native/app/src/main/cpp/tf-lite-api/tensorflow_src -I/Users/manwelbugeja/StudioProjects/whisper_android/whisper_native/app/src/main/cpp/tf-lite-api/include/flatbuffers/include -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security   -O2 -g -DNDEBUG -fPIC -o CMakeFiles/audioEngine.dir/TFLiteEngine.cpp.o -c /Users/manwelbugeja/StudioProjects/whisper_android/whisper_native/app/src/main/cpp/TFLiteEngine.cpp",
+  "file": "/Users/manwelbugeja/StudioProjects/whisper_android/whisper_native/app/src/main/cpp/TFLiteEngine.cpp"
+},
+{
+  "directory": "/Users/manwelbugeja/StudioProjects/whisper_android/whisper_native/app/.cxx/RelWithDebInfo/5e1f3e4n/arm64-v8a",
+  "command": "/Users/manwelbugeja/Library/Android/sdk/ndk/25.1.8937393/toolchains/llvm/prebuilt/darwin-x86_64/bin/clang++ --target=aarch64-none-linux-android26 --sysroot=/Users/manwelbugeja/Library/Android/sdk/ndk/25.1.8937393/toolchains/llvm/prebuilt/darwin-x86_64/sysroot -DaudioEngine_EXPORTS -I/Users/manwelbugeja/StudioProjects/whisper_android/whisper_native/app/src/main/cpp/tf-lite-api/tensorflow_src -I/Users/manwelbugeja/StudioProjects/whisper_android/whisper_native/app/src/main/cpp/tf-lite-api/include/flatbuffers/include -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security   -O2 -g -DNDEBUG -fPIC -o CMakeFiles/audioEngine.dir/TFLiteEngineJNI.cpp.o -c /Users/manwelbugeja/StudioProjects/whisper_android/whisper_native/app/src/main/cpp/TFLiteEngineJNI.cpp",
+  "file": "/Users/manwelbugeja/StudioProjects/whisper_android/whisper_native/app/src/main/cpp/TFLiteEngineJNI.cpp"
+}
+]

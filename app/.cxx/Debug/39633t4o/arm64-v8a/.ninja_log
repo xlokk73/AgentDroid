@@ -1,0 +1,4 @@
+# ninja log v5
+1	1020	1738428650333970547	CMakeFiles/audioEngine.dir/TFLiteEngineJNI.cpp.o	209777f00d345ea4
+0	7625	1738428656929556034	CMakeFiles/audioEngine.dir/TFLiteEngine.cpp.o	3793e4fe5b9ac8c2
+7626	7953	1738428657218277293	/Users/manwelbugeja/StudioProjects/whisper_android/whisper_native/app/build/intermediates/cxx/Debug/39633t4o/obj/arm64-v8a/libaudioEngine.so	ca073c5e895d713b

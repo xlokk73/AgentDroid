@@ -1,0 +1,29 @@
+{
+  "buildFiles": [
+    "/Users/manwelbugeja/StudioProjects/whisper_android/whisper_native/app/src/main/cpp/CMakeLists.txt"
+  ],
+  "cleanCommandsComponents": [
+    [
+      "/Users/manwelbugeja/Library/Android/sdk/cmake/3.22.1/bin/ninja",
+      "-C",
+      "/Users/manwelbugeja/StudioProjects/whisper_android/whisper_native/app/.cxx/RelWithDebInfo/5e1f3e4n/arm64-v8a",
+      "clean"
+    ]
+  ],
+  "buildTargetsCommandComponents": [
+    "/Users/manwelbugeja/Library/Android/sdk/cmake/3.22.1/bin/ninja",
+    "-C",
+    "/Users/manwelbugeja/StudioProjects/whisper_android/whisper_native/app/.cxx/RelWithDebInfo/5e1f3e4n/arm64-v8a",
+    "{LIST_OF_TARGETS_TO_BUILD}"
+  ],
+  "libraries": {
+    "audioEngine::@6890427a1f51a3e7e1df": {
+      "artifactName": "audioEngine",
+      "abi": "arm64-v8a",
+      "output": "/Users/manwelbugeja/StudioProjects/whisper_android/whisper_native/app/build/intermediates/cxx/RelWithDebInfo/5e1f3e4n/obj/arm64-v8a/libaudioEngine.so",
+      "runtimeFiles": [
+        "/Users/manwelbugeja/StudioProjects/whisper_android/whisper_native/app/src/main/cpp/tf-lite-api/generated-libs/arm64-v8a/libtensorflowlite.so"
+      ]
+    }
+  }
+}
