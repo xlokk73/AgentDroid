@@ -38,6 +38,13 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
 
+import android.widget.TextView;
+import android.speech.tts.TextToSpeech;
+import android.widget.Toast;
+import java.util.Locale;
+
+import androidx.annotation.NonNull;
+
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = "MainActivity";
 
@@ -68,10 +75,24 @@ public class MainActivity extends AppCompatActivity {
     private final SharedResource transcriptionSync = new SharedResource();
     private final Handler handler = new Handler(Looper.getMainLooper());
 
+    private TextToSpeech textToSpeech;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        // Initialize TextToSpeech
+        textToSpeech = new TextToSpeech(getApplicationContext(), status -> {
+            if (status == TextToSpeech.SUCCESS) {
+                int result = textToSpeech.setLanguage(Locale.US);
+                if (result == TextToSpeech.LANG_MISSING_DATA || result == TextToSpeech.LANG_NOT_SUPPORTED) {
+                    Toast.makeText(getApplicationContext(), "Language not supported!", Toast.LENGTH_SHORT).show();
+                }
+            } else {
+                Toast.makeText(getApplicationContext(), "TTS Initialization failed!", Toast.LENGTH_SHORT).show();
+            }
+        });
 
         // Initialize LLM
         try {
@@ -417,11 +438,26 @@ public class MainActivity extends AppCompatActivity {
         new Thread(() -> {
             try {
                 String llmResponse = llm.generateResponse(transcription);
-                handler.post(() -> tvResult.append("LLM Response: " + llmResponse + "\n"));
+                handler.post(() -> {
+                    tvResult.append("LLM Response: " + llmResponse + "\n");
+                    // Speak the response
+                    speakText(llmResponse);
+                });
             } catch (JSONException e) {
                 e.printStackTrace();
             }
         }).start();
+    }
+
+    private void speakText(String text) {
+        if (textToSpeech != null) {
+            // Stop any ongoing speech
+            if (textToSpeech.isSpeaking()) {
+                textToSpeech.stop();
+            }
+            // Speak the new text
+            textToSpeech.speak(text, TextToSpeech.QUEUE_FLUSH, null, null);
+        }
     }
 
     static class SharedResource {
@@ -450,6 +486,15 @@ public class MainActivity extends AppCompatActivity {
         public synchronized void sendSignal() {
             notify();  // Notifies the waiting thread
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        if (textToSpeech != null) {
+            textToSpeech.stop();
+            textToSpeech.shutdown();
+        }
+        super.onDestroy();
     }
 
     // Test code for parallel processing
