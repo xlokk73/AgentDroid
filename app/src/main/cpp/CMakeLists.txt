@@ -6,9 +6,9 @@ project(TFLiteEngine VERSION 1.0)
 set(INCLUDE_DIRS
         ${CMAKE_CURRENT_LIST_DIR}/tf-lite-api/tensorflow_src
         ${CMAKE_CURRENT_LIST_DIR}/tf-lite-api/include/flatbuffers/include
-        )
+)
 
-# # Check if the build is Android
+# Check if the build is Android
 if (ANDROID)
     add_library(audioEngine SHARED TFLiteEngine.cpp TFLiteEngineJNI.cpp)
     target_include_directories(audioEngine PRIVATE ${INCLUDE_DIRS})
@@ -18,7 +18,12 @@ if (ANDROID)
     set_target_properties(tflite PROPERTIES IMPORTED_LOCATION
             ${CMAKE_CURRENT_LIST_DIR}/tf-lite-api/generated-libs/${ANDROID_ABI}/libtensorflowlite.so)
 
-    target_link_libraries(audioEngine tflite)
+    # Add 'llama' library (imported)
+    add_library(llama SHARED IMPORTED)
+    set_target_properties(llama PROPERTIES IMPORTED_LOCATION
+            ${CMAKE_CURRENT_LIST_DIR}/../jniLibs/${ANDROID_ABI}/libllama.so)
+
+    target_link_libraries(audioEngine tflite llama)
 endif ()
 
 # Check if the build is not Android
@@ -31,13 +36,12 @@ if (NOT ANDROID)
     set_target_properties(tflite PROPERTIES IMPORTED_LOCATION
             ${CMAKE_CURRENT_LIST_DIR}/tf-lite-api/generated-libs/x86_64/libtensorflowlite.so)
 
+    # Add 'llama' library (imported)
+    add_library(llama SHARED IMPORTED)
+    set_target_properties(llama PROPERTIES IMPORTED_LOCATION
+            ${CMAKE_CURRENT_LIST_DIR}/../jniLibs/x86_64/libllama.so)
+
     # Create an executable target that links with 'audioEngine' and 'tflite' libraries
     add_executable(my_audio_app main.cpp)
-    target_link_libraries(my_audio_app PRIVATE audioEngine tflite)
+    target_link_libraries(my_audio_app PRIVATE audioEngine tflite llama)
 endif ()
-
-
-
-
-
-

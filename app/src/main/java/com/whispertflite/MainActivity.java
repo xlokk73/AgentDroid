@@ -22,12 +22,13 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
+import com.chatbot.LocalLlamaLLM;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.whispertflite.asr.Player;
 import com.whispertflite.utils.WaveUtil;
 import com.whispertflite.asr.Recorder;
 import com.whispertflite.asr.Whisper;
-import com.chatbot.AzureGPT4oMiniLLM;
+import com.chatbot.LocalLlamaLLM;
 
 import org.json.JSONException;
 
@@ -44,6 +45,8 @@ import android.widget.Toast;
 import java.util.Locale;
 
 import androidx.annotation.NonNull;
+
+// TODO: Add chat history to LLM
 
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = "MainActivity";
@@ -64,7 +67,7 @@ public class MainActivity extends AppCompatActivity {
     private Player mPlayer = null;
     private Recorder mRecorder = null;
     private Whisper mWhisper = null;
-    private AzureGPT4oMiniLLM llm = null;
+    private LocalLlamaLLM llm = null;
 
     private File sdcardDataFolder = null;
     private File selectedWaveFile = null;
@@ -82,6 +85,10 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        // Initialize LLM with the path to the .gguf model
+        String modelPath = getExternalFilesDir(null) + "/model.gguf";
+        llm = new LocalLlamaLLM(modelPath);
+
         // Initialize TextToSpeech
         textToSpeech = new TextToSpeech(getApplicationContext(), status -> {
             if (status == TextToSpeech.SUCCESS) {
@@ -93,13 +100,6 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(), "TTS Initialization failed!", Toast.LENGTH_SHORT).show();
             }
         });
-
-        // Initialize LLM
-        try {
-            llm = new AzureGPT4oMiniLLM(this);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
 
         // Call the method to copy specific file types from assets to data folder
         sdcardDataFolder = this.getExternalFilesDir(null);

@@ -12,6 +12,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 
+// TODO: Add prompt to LLM
+
 public class AzureGPT4oMiniLLM implements LLMInterface {
     private static final String TAG = "AzureGPT4oMiniLLM";
     private static final String URI = "https://gen-openai-demo-sweeden.openai.azure.com/openai/deployments/gpt-4o-mini/chat/completions?api-version=2024-08-01-preview";
